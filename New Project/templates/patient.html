@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title%}
+PATIENT BOOKING
+{% endblock title%}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card" style="width: 28rem;">
+                <img src="static/images/doc.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Hospital Doctors</h5>
+                  <p class="card-text">Doctors Names</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Rajesh</li>
+                  <li class="list-group-item">Kannan</li>
+                  <li class="list-group-item">Saravanan</li>
+                </ul>
+                <div class="card-body">
+                  <a href="#" class="card-link">Contact Us</a>
+                  <a href="#" class="card-link">About Us</a>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-5 pb-2">
+            <h4 class="text-center bg-primary text-white">Book Your Slot</h4>
+            <br>
+            {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+              {{message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <form action="/patient" method="post" class="jumbotron"  style= "height: 37rem">
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" value={{current_user.email}} name="email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <select name="gender" id="gender" class="form-control" required>
+                        <option selected>Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Transgender">Transgender</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="slot" id="slot" class="form-control" required>
+                        <option selected disabled>Book Your Slot</option>
+                        <option value="Morning">Morning</option>
+                        <option value="Afternoon">Afternoon</option>
+                        <option value="Evening">Evening</option>
+                    </select>
+                </div>                
+                <div class="form-group">
+                    <input type="time" class="form-control" name="time" placeholder="Time" required>
+                </div>
+                <div class="form-group">
+                    <input type="date" class="form-control" name="date" placeholder="Date" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="disease" name="disease" placeholder="Disease" required>
+                </div>
+                <div class="form-group">
+                    <select name="dept" id="dept" class="form-control" required>
+                        <option selected >Select Doctor Department</option>
+                        {% for d in doct %}
+                        <option value="{{d.dept}}">{{d.dept}}</option>
+                        {% endfor %}
+                    </select>
+                </div>  
+                <div class="form-group">
+                    <input type="number" class="form-control" name="number" id="number" placeholder="Phone-Number" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm btn-block mt-2">Book</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock body %}
